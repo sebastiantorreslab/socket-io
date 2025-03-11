@@ -31,10 +31,15 @@ export class RoomSocketController {
         socket.emit("receiveRoomUsers", users);
       });
 
+   
+
       socket.on("sendMessageToRoom", (message: MessageData, roomId: string) => {
         console.log(message, "room", roomId);
+        if (socket.rooms.has(roomId)) {
         this.io.to(roomId).emit("receiveMessageRoom", message);
+        }
       });
+ 
 
       socket.on("getRooms", () => {
         const rooms = this.roomService.getRooms();
